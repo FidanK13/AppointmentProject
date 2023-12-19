@@ -15,10 +15,77 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from .views import appointment_view
+from django.urls import include, path
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("appointment/",appointment_view, name='appointment'),
+    path('', include('Appointment.urls')),
+    #path("appointment/",appointment_view, name='appointment'),
 ]
+'''
+< div
+
+
+class ="w-full sm:w-half formbold-px-3" >
+
+< div
+
+
+class ="formbold-mb-5" >
+
+< input
+type = "text"
+name = "city"
+id = "city"
+placeholder = "Enter city"
+
+
+class ="formbold-form-input"
+
+/ >
+< / div >
+< / div >
+< div
+
+
+class ="w-full sm:w-half formbold-px-3" >
+
+< div
+
+
+class ="formbold-mb-5" >
+
+< input
+type = "text"
+name = "state"
+id = "state"
+placeholder = "Enter state"
+
+
+class ="formbold-form-input"
+
+/ >
+< / div >
+< / div >
+< div
+
+
+class ="w-full sm:w-half formbold-px-3" >
+
+< div
+
+
+class ="formbold-mb-5" >
+
+< input
+type = "text"
+name = "post-code"
+id = "post-code"
+placeholder = "Post Code"
+
+
+class ="formbold-form-input"
+
+/ >
+< / div >
+< / div >
+'''
