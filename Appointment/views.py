@@ -1,21 +1,9 @@
-from django.contrib.auth.models import auth
-from django.contrib.auth import login, authenticate
 
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect  # , HttpResponse
+from datetime import datetime, time
+from django.shortcuts import render, HttpResponse
 from .models import AppointmentModel
-#from .forms import WorkCreateForm
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-# Create your views here.
-from django.contrib.auth import views as auth_views
-from django.views import generic
-from django.urls import reverse_lazy
-#from .forms import AppointmentForm
 
 
-
-#@login_required(login_url='login_page')
 def appointment_view(request):
     context={}
     if request.method == 'POST':
@@ -23,18 +11,30 @@ def appointment_view(request):
         email = request.POST.get('email',None)
         text = request.POST.get('text',None)
         phone = request.POST.get('phone',None)
-        date = request.POST.get('date',None)
-        time = request.POST.get('time',None)
+        from_datetime = request.POST.get('from_datetime',None)
+        to_datetime = request.POST.get('to_datetime',None)
         AppointmentModel.objects.create(
             name=name,
             email=email,
             text=text,
             phone=phone,
-            date=date,
-            time=time
+            from_datetime=from_datetime,
+            to_datetime=to_datetime
         )
+        conflict=AppointmentModel.objects.all()
+        ls=conflict.values('from_datetime','to_datetime')
+        for i in range (0,len(conflict)):
+            if (ls[i].get('from_datetime').astimezone(tz=None)>=datetime.fromisoformat(from_datetime).astimezone(tz=None)<=ls[i].get('to_datetime').astimezone(tz=None)
+                    or ls[i].get('from_datetime').astimezone(tz=None)>=datetime.fromisoformat(to_datetime).astimezone(tz=None)<=ls[i].get('to_datetime').astimezone(tz=None)):
+                print(ls[i].get('from_datetime'))
+                return HttpResponse("this meeting conflicts with other meetings")
+            elif time(18)>=datetime.fromisoformat(from_datetime).time()<=time(18):
+                return HttpResponse("it's not working hours choose different time")
+            elif time(0,10)<ls[i].get('to_datetime').astimezone(tz=None)-ls[i].get('from_datetime').astimezone(tz=None)>time(2):
+                return HttpResponse("This meeting's duration is inappropirate pliz choose between 30 and 120 minutes time period")
+            else:
+                return HttpResponse("Thanks for the Appointment")
     else:
-        #messages.error(request, AppointmentModel.errors)
         return render(request, 'appointment.html', context)
 
-    return render(request,'appointment.html',context) #HttpResponse("home_page")
+    return render(request,'appointment.html',context)

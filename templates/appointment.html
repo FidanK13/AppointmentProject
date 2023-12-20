@@ -38,22 +38,24 @@
       <div class="flex flex-wrap formbold--mx-3">
         <div class="w-full sm:w-half formbold-px-3">
           <div class="formbold-mb-5 w-full">
-            <label for="date" class="formbold-form-label"> Date </label>
+            <label for="date" class="formbold-form-label"> From DateTime </label>
             <input
-              type="date" data-date-format="YYYY-MM-DD" 
-              name="date"
-              id="date"
+              type="datetime-local" data-value="YYYY-MM-DDThh:mm:ss"
+              name="from_datetime"
+              id="from_datetime"
               class="formbold-form-input"
             />
           </div>
         </div>
+      </div>
+      <div class="flex flex-wrap formbold--mx-3">
         <div class="w-full sm:w-half formbold-px-3">
-          <div class="formbold-mb-5">
-            <label for="time" class="formbold-form-label"> Time </label>
+          <div class="formbold-mb-5 w-full">
+            <label for="date" class="formbold-form-label"> To DateTime </label>
             <input
-              type="time"
-              name="time"
-              id="time"
+              type="datetime-local" data-value="YYYY-MM-DDThh:mm:ss"
+              name="to_datetime"
+              id="to_datetime"
               class="formbold-form-input"
             />
           </div>

@@ -22,6 +22,19 @@ urlpatterns = [
     #path("appointment/",appointment_view, name='appointment'),
 ]
 '''
+data-date-format="YYYY-MM-DD" 
+        <div class="w-full sm:w-half formbold-px-3">
+          <div class="formbold-mb-5">
+            <label for="time" class="formbold-form-label"> Time </label>
+            <input
+              type="time"
+              name="time"
+              id="time"
+              class="formbold-form-input"
+            />
+          </div>
+        </div>
+
 < div
 
 
