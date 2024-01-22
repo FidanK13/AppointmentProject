@@ -32,17 +32,19 @@ def appointment_view(request):
             end=max(x.get('to_datetime') for x in ls if datetime.date(x.get('to_datetime')) == datetime.date(datetime.fromisoformat(to_datetime).astimezone(tz=None))),
             freq='120min').tolist()
         for i in freedatelist:
-            for j in range(0, len(ls)):
+            for j in range(0, len(conflict)):
                 if ls[j].get('from_datetime').astimezone(tz=None) <= i <= ls[j].get('to_datetime').astimezone(tz=None):
-                    freedatelist.remove(i)
+                    if i in freedatelist:
+                        freedatelist.remove(i)
         for i in range (0,len(conflict)):
             if (ls[i].get('from_datetime').astimezone(tz=None)>=datetime.fromisoformat(from_datetime).astimezone(tz=None)<=ls[i].get('to_datetime').astimezone(tz=None)
                     or ls[i].get('from_datetime').astimezone(tz=None)>=datetime.fromisoformat(to_datetime).astimezone(tz=None)<=ls[i].get('to_datetime').astimezone(tz=None)):
                 print(ls[i].get('from_datetime'))
                 return HttpResponse("this meeting conflicts with other meetings")
-            elif time(18)>=datetime.fromisoformat(from_datetime).time()<=time(18):
+            elif time(10)>=datetime.fromisoformat(from_datetime).time() or datetime.fromisoformat(from_datetime).time()>=time(18):
                 return HttpResponse("it's not working hours choose different time")
-            elif time(0,10)<ls[i].get('to_datetime').astimezone(tz=None)-ls[i].get('from_datetime').astimezone(tz=None)>time(2):
+            elif (timedelta(minutes=10)<ls[i].get('to_datetime').astimezone(tz=None)-ls[i].get('from_datetime').astimezone(tz=None)
+                  or ls[i].get('to_datetime').astimezone(tz=None)-ls[i].get('from_datetime').astimezone(tz=None)>timedelta(hours=2)):
                 return HttpResponse("This meeting's duration is inappropirate pliz choose between 30 and 120 minutes time period")
             else:
                 return HttpResponse("Thanks for the Appointment")
